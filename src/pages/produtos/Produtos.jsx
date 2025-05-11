@@ -25,7 +25,7 @@ const Produtos = () => {
     const [buscaNome, setBuscaNome] = useState('');
     const [buscaTitulo, setBuscaTitulo] = useState('');
     const [buscaApoiador, setBuscaApoiador] = useState('');
-    const liderancaSelecionada = location.state?.liderancaSelecionada || null;
+
     const [eleitores, setEleitores] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [idParaExcluir, setIdParaExcluir] = useState(null);
@@ -84,13 +84,7 @@ const Produtos = () => {
         setIdParaExcluir(null);
     };
 
-    const carregarLiderancas = async () => {
-
-        const result = await buscarEleitoresPorLideranca(liderancaSelecionada);
-        setEleitores(result)
-        console.log(result)
-
-    };
+    
 
 
     const items = [
@@ -158,7 +152,7 @@ const Produtos = () => {
             key: 'acoes',
 
             render: (_, record) => (
-                <Space>
+                <Space >
                     <Button style={{ minWidth: '100px' }}
                         type={record.ativo ? 'default' : 'primary'}
                         size="small"
@@ -203,14 +197,14 @@ const Produtos = () => {
 
     return (
         <Mainlayout titulo="Lista de eleitores">
-            <Row gutter={16}  >
+            <Row  gutter={16}  >
 
 
 
 
             </Row>
 
-            <Row justify={"space-between"} style={{ marginBottom: '16px' }}>
+            <Row justify={"space-between"} style={{ padding: '16px' }}>
 
 
                 <Col>
@@ -254,33 +248,33 @@ const Produtos = () => {
             </Row>
             {mostrarBuscaAvancada && (
 
-                <Form layout="vertical" style={{ marginTop: '16px', marginBottom: '16px' }}>
+                <Form layout="vertical" style={{ padding: '16px',  }}>
                     <Row
                         gutter={[16, 16]}
                         style={{
                             borderRadius: '8px', border: '1px solid #d9d9d9', padding: '16px', marginLeft: 0,
-                            marginRight: 0,
+                            marginRight: 0, backgroundColor: '#fff'
                         }}>
 
 
                         <Col span={8}>
-                            <Form.Item name="buscarportitulo" label="Buscar por titulo">
+                            <Form.Item name="buscarporcodigo" label="Código">    
                                 <Input value={buscaTitulo}
-                                    onChange={(e) => setBuscaTitulo(e.target.value)} placeholder="Digite o número do título" />
+                                    onChange={(e) => setBuscaTitulo(e.target.value)}  />
                             </Form.Item>
                         </Col>
 
                         <Col span={8}>
-                            <Form.Item name="buscarpornome" label="Buscar por Nome">
+                            <Form.Item name="buscarpornome" label="Nome">
                                 <Input value={buscaNome}
-                                    onChange={(e) => setBuscaNome(e.target.value)} placeholder="Digite o nome do eleitor" />
+                                    onChange={(e) => setBuscaNome(e.target.value)}  />
                             </Form.Item>
                         </Col>
 
                         <Col span={8}>
-                            <Form.Item name="buscarporapoiador" label="Buscar pelo apoiador">
+                            <Form.Item name="buscargrupo" label="Grupo">
                                 <Input value={buscaApoiador}
-                                    onChange={(e) => setBuscaApoiador(e.target.value)} placeholder="Digite o nome do apoiador" />
+                                    onChange={(e) => setBuscaApoiador(e.target.value)}  />
                             </Form.Item>
                         </Col>
                         <Col span={24}>
