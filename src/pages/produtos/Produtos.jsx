@@ -30,80 +30,31 @@ const Produtos = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [idParaExcluir, setIdParaExcluir] = useState(null);
 
+
+
+
+    const alternarAtivacaoProduto = (key) => {
+        const novosProdutos = produtos.map(produto =>
+            produto.key === key ? { ...produto, ativo: !produto.ativo } : produto
+        );
+        setProdutos(novosProdutos);
+    };
+
+
+
     let navigate = useNavigate();
 
-    const dados = [
-        {
-            key: '1',
-            codigo: 'P001',
-            nome: 'Camiseta Branca',
-            valor: 39.90,
-            estoque: 25,
-        },
-        {
-            key: '2',
-            codigo: 'P002',
-            nome: 'Calça Jeans',
-            valor: 89.90,
-            estoque: 12,
-        },
-        {
-            key: '3',
-            codigo: 'P003',
-            nome: 'Tênis Esportivo',
-            valor: 149.90,
-            estoque: 8,
-        },
-        {
-            key: '4',
-            codigo: 'P004',
-            nome: 'Boné Preto',
-            valor: 29.90,
-            estoque: 30,
-        },
-        {
-            key: '5',
-            codigo: 'P005',
-            nome: 'Jaqueta de Couro',
-            valor: 199.90,
-            estoque: 5,
-        },
-        {
-            key: '6',
-            codigo: 'P006',
-            nome: 'Meia Social',
-            valor: 9.90,
-            estoque: 100,
-        },
-        {
-            key: '7',
-            codigo: 'P007',
-            nome: 'Cinto de Couro',
-            valor: 49.90,
-            estoque: 15,
-        },
-        {
-            key: '8',
-            codigo: 'P008',
-            nome: 'Blusa Moletom',
-            valor: 119.90,
-            estoque: 10,
-        },
-        {
-            key: '9',
-            codigo: 'P009',
-            nome: 'Saia Jeans',
-            valor: 69.90,
-            estoque: 20,
-        },
-        {
-            key: '10',
-            codigo: 'P010',
-            nome: 'Vestido Floral',
-            valor: 89.90,
-            estoque: 18,
-        },
-    ];
+    const [produtos, setProdutos] = useState([
+        { key: '1', codigo: 'P001', nome: 'Camiseta Branca', valor: 39.90, estoque: 25, ativo: true },
+        { key: '2', codigo: 'P002', nome: 'Calça Jeans', valor: 89.90, estoque: 12, ativo: true },
+        { key: '3', codigo: 'P003', nome: 'Tênis Esportivo', valor: 149.90, estoque: 8, ativo: false },
+        { key: '4', codigo: 'P004', nome: 'Jaqueta de Couro', valor: 199.90, estoque: 5, ativo: true },
+        { key: '5', codigo: 'P005', nome: 'Boné Estampado', valor: 29.90, estoque: 15, ativo: true },
+        { key: '6', codigo: 'P006', nome: 'Mochila Escolar', valor: 79.90, estoque: 10, ativo: false },
+        { key: '7', codigo: 'P007', nome: 'Relógio Digital', valor: 129.90, estoque: 20, ativo: true },
+        { key: '8', codigo: 'P008', nome: 'Óculos de Sol', valor: 59.90, estoque: 30, ativo: true },
+        // ... demais produtos
+    ]);
 
 
 
@@ -208,6 +159,13 @@ const Produtos = () => {
 
             render: (_, record) => (
                 <Space>
+                    <Button style={{ minWidth: '100px' }}
+                        type={record.ativo ? 'default' : 'primary'}
+                        size="small"
+                        onClick={() => alternarAtivacaoProduto(record.key)}
+                    >
+                        {record.ativo ? 'Desativar' : 'Ativar'}
+                    </Button>
                     <Tooltip title="Visualizar">
                         <NavLink to={`/visualizar/${record.id}`}>
                             <Button icon={<SearchOutlined />} type="primary" size="small" />
@@ -231,6 +189,8 @@ const Produtos = () => {
                             }}
                         />
                     </Tooltip>
+
+
                 </Space>
             ),
         },
@@ -256,7 +216,7 @@ const Produtos = () => {
                 <Col>
                     <Space>
 
-                        <NavLink to="/cadastroeleitor">
+                        <NavLink to="/produtos">
                             <Button type="primary" icon={<PlusOutlined />}>Adicionar</Button>
                         </NavLink>
 
@@ -352,7 +312,7 @@ const Produtos = () => {
 
             <Table
                 columns={columns}
-                dataSource={dados}
+                dataSource={produtos}
                 rowKey="key"
                 pagination={{ pageSize: 10 }}
                 bordered
