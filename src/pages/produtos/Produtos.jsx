@@ -13,7 +13,7 @@ import {
     FilterOutlined,
 
 } from '@ant-design/icons';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router';
+import { data, Link, NavLink, useLocation, useNavigate } from 'react-router';
 
 import { useState } from 'react';
 
@@ -84,44 +84,6 @@ const Produtos = () => {
         setIdParaExcluir(null);
     };
 
-    
-
-
-    const items = [
-        {
-            label: (
-                <Link to='/importar_cadastro'>
-                    Importar de uma planilha
-                </Link>
-
-            ),
-            icon: <FileExcelOutlined style={{ color: 'green' }} />,
-            key: '0',
-        },
-        {
-            label: (
-                <a href="https://www.antgroup.com" target="_blank" rel="noopener noreferrer">
-                    Exportar cadastro
-                </a>
-
-            ),
-            icon: <FileExcelOutlined style={{ color: 'green' }} />,
-            key: '1',
-        },
-        {
-            label: (
-                <a href="https://docs.google.com/spreadsheets/d/1jhyx3i0mXYM-v6HRI2lEjBCus9vXIFq-PH2L81_e0tw/export?format=xlsx" target="_blank" rel="noopener noreferrer">
-                    Baixar modelo de importação
-                </a>
-
-            ),
-            icon: <FileExcelOutlined style={{ color: 'green' }} />,
-            key: '2',
-        },
-
-    ];
-
-
 
 
     const columns = [
@@ -150,10 +112,14 @@ const Produtos = () => {
         {
             title: 'Ações',
             key: 'acoes',
+            width: 200,
 
             render: (_, record) => (
+
+
                 <Space >
-                    <Button style={{ minWidth: '100px' }}
+                    <Button
+                        style={{ minWidth: '100px' }}
                         type={record.ativo ? 'default' : 'primary'}
                         size="small"
                         onClick={() => alternarAtivacaoProduto(record.key)}
@@ -186,6 +152,7 @@ const Produtos = () => {
 
 
                 </Space>
+
             ),
         },
     ];
@@ -197,44 +164,17 @@ const Produtos = () => {
 
     return (
         <Mainlayout titulo="Lista de eleitores">
-            <Row  gutter={16}  >
 
-
-
-
-            </Row>
 
             <Row justify={"space-between"} style={{ padding: '16px' }}>
 
-
-                <Col>
-                    <Space>
-
-                        <NavLink to="/produtos">
-                            <Button type="primary" icon={<PlusOutlined />}>Adicionar</Button>
-                        </NavLink>
-
-                        <Dropdown menu={{ items }} trigger={['click']}>
-                            <a onClick={e => e.preventDefault()}>
-                                <Button>
-                                    <Space>
-                                        <SettingOutlined />
-                                        Mais ações
-                                        <DownOutlined />
-                                    </Space>
-                                </Button>
-                            </a>
-                        </Dropdown>
-
-                    </Space>
-                </Col>
 
 
 
                 <Col >
                     <Space>
                         <Input
-                            placeholder="Buscar eleitor"
+                            placeholder="Buscar produto"
                             prefix={<SearchOutlined />}
                             allowClear />
 
@@ -248,7 +188,7 @@ const Produtos = () => {
             </Row>
             {mostrarBuscaAvancada && (
 
-                <Form layout="vertical" style={{ padding: '16px',  }}>
+                <Form layout="vertical" style={{ padding: '16px', }}>
                     <Row
                         gutter={[16, 16]}
                         style={{
@@ -258,23 +198,23 @@ const Produtos = () => {
 
 
                         <Col span={8}>
-                            <Form.Item name="buscarporcodigo" label="Código">    
+                            <Form.Item name="buscarporcodigo" label="Código">
                                 <Input value={buscaTitulo}
-                                    onChange={(e) => setBuscaTitulo(e.target.value)}  />
+                                    onChange={(e) => setBuscaTitulo(e.target.value)} />
                             </Form.Item>
                         </Col>
 
                         <Col span={8}>
                             <Form.Item name="buscarpornome" label="Nome">
                                 <Input value={buscaNome}
-                                    onChange={(e) => setBuscaNome(e.target.value)}  />
+                                    onChange={(e) => setBuscaNome(e.target.value)} />
                             </Form.Item>
                         </Col>
 
                         <Col span={8}>
                             <Form.Item name="buscargrupo" label="Grupo">
                                 <Input value={buscaApoiador}
-                                    onChange={(e) => setBuscaApoiador(e.target.value)}  />
+                                    onChange={(e) => setBuscaApoiador(e.target.value)} />
                             </Form.Item>
                         </Col>
                         <Col span={24}>
@@ -308,8 +248,9 @@ const Produtos = () => {
                 columns={columns}
                 dataSource={produtos}
                 rowKey="key"
-                pagination={{ pageSize: 10 }}
+                pagination={{ pageSize: 20 }}
                 bordered
+                style={{ padding: '16px', }}
             />
 
             <Modal

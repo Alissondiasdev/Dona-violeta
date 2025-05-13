@@ -10,6 +10,7 @@ import Clientes from "../pages/clientes/Clientes";
 import Configuracao from "../pages/configuracao/Configuracao";
 import Home from "../pages/home/Home";
 import VizualizarPedido from "../pages/visualizarPedido/VisualizarPedido";
+import Conferencia from "../pages/conferencia/Conferencia";
 
 
 
@@ -25,6 +26,7 @@ const AppRoutes = () => {
                 <Route path="/produtos" element={<Produtos />} />
                 <Route path="/pedidos" element={<Pedidos />} />
                 <Route path="/pedidos/:id" element={<VizualizarPedido />} />
+                <Route path="/pedidos/conferencia/:id" element={<Conferencia />} />
                 <Route path="/clientes" element={<Clientes />} />
                 <Route path="/configuracao" element={<Configuracao />} />
                 

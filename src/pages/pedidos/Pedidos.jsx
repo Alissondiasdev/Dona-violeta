@@ -33,9 +33,6 @@ const Pedidos = () => {
 
 
 
-
-    let navigate = useNavigate();
-
     const pedidos = [
         { key: '0',id:'12458784', codigo: 'P000', data: '12/08/2005', nome: 'Roberta aquino', watzapp: '85991-535026', entrega: 'Retirar na loja', pagamento: 'Pagamento na retirada', subtotal: 'R$ 192,50', valor: 39.90, status: 'Separando' },
 
