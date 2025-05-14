@@ -1,3 +1,8 @@
+import { Link, NavLink, useLocation, useNavigate } from 'react-router';
+
+import { useEffect, useState } from 'react';
+import Mainlayout from '../../Componentes/Layout/Mainlayout';
+import { buscarPedidos } from '../../services/FireBaseService';
 import {
     Space, Table, Col, Modal, Button, Input, Row, Tooltip,
     Form,
@@ -13,34 +18,30 @@ import {
     FilterOutlined,
 
 } from '@ant-design/icons';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router';
-
-import { useState } from 'react';
-import Mainlayout from '../../Componentes/Layout/Mainlayout';
 
 
 
 const Pedidos = () => {
     const location = useLocation();
     const [mostrarBuscaAvancada, setMostrarBuscaAvancada] = useState(false);
-    const [buscaNome, setBuscaNome] = useState('');
-    const [buscaTitulo, setBuscaTitulo] = useState('');
-    const [buscaApoiador, setBuscaApoiador] = useState('');
-    const liderancaSelecionada = location.state?.liderancaSelecionada || null;
-    const [eleitores, setEleitores] = useState([]);
+    const [pedidos, setPedidos] = useState('')
+    
+    
+    
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [idParaExcluir, setIdParaExcluir] = useState(null);
 
+    useEffect(() => {
+  const carregarPedidos = async () => {
+    const result = await buscarPedidos();
+    setPedidos(result);
+    // Aqui você pode atualizar um estado se quiser exibir os pedidos
+  };
+
+  carregarPedidos(); // Executa a função uma vez ao montar o componente
+}, []);
 
 
-    const pedidos = [
-        { key: '0',id:'12458784', codigo: 'P000', data: '12/08/2005', nome: 'Roberta aquino', watzapp: '85991-535026', entrega: 'Retirar na loja', pagamento: 'Pagamento na retirada', subtotal: 'R$ 192,50', valor: 39.90, status: 'Separando' },
-
-    
-        { key: '1',id:'89521457', codigo: 'P001', data: '12/08/2005', nome: 'Geovana fontenele', watzapp: '85991-535026', entrega: 'Retirar na loja', pagamento: 'Pagamento na retirada', subtotal: 'R$ 192,50', valor: 39.90, status: 'Separando' },
-
-        // ... demais produtos
-    ]
 
 
 
@@ -48,16 +49,7 @@ const Pedidos = () => {
         setMostrarBuscaAvancada(!mostrarBuscaAvancada);
 
     }
-    const excluirEleitor = async (id) => {
-        const resultado = await deletarEleitor(id);
-
-        if (resultado.sucesso) {
-            message.success(resultado.mensagem || "Eleitor excluído com sucesso.");
-            await carregarLiderancas(); // Atualiza a lista
-        } else {
-            message.error(resultado.mensagem || "Erro ao excluir o eleitor.");
-        }
-    };
+    
 
     const handleOk = () => {
         excluirEleitor(idParaExcluir);
@@ -149,49 +141,46 @@ const Pedidos = () => {
     const columns = [
         {
             title: 'Código',
-            dataIndex: 'codigo',
-            key: 'codigo',
+            dataIndex: 'clienteId',
+            key: 'clienteId',
         },
         {
             title: 'Data',
-            dataIndex: 'data',
-            key: 'data',
+            dataIndex: 'dataPedido',
+            key: 'dataPedido',
         },
         {
-            title: 'Nome',
-            dataIndex: 'nome',
-            key: 'nome',
+            title: 'Nome cliente',
+            dataIndex: 'nomeCliente',
+            key: 'nomeCliente',
         },
         {
-            title: 'Watzapp',
-            dataIndex: 'watzapp',
-            key: 'watzapp',
-
+            title: 'Whatsapp',
+            dataIndex: 'telefone',
+            key: 'telefone',
         },
         {
             title: 'Entrega',
-            dataIndex: 'entrega',
-            key: 'entrega',
-
+            dataIndex: 'formaEntrega',
+            key: 'formaEntrega',
         },
         {
             title: 'Pagamento',
-            dataIndex: 'pagamento',
-            key: 'pagamento',
-
+            dataIndex: 'formaPagamento',
+            key: 'formaPagamento',
         },
-        {
+         {
             title: 'Subtotal',
-            dataIndex: 'subtotal',
-            key: 'subtotal',
-
+            dataIndex: 'total',
+            key: 'total',
         },
         {
             title: 'Status',
             dataIndex: 'status',
             key: 'status',
-
         },
+       
+        
 
 
         {
@@ -230,12 +219,7 @@ const Pedidos = () => {
             ),
         },
     ];
-    const dadosFiltrados = eleitores.filter(item =>
-        item.nome.toLowerCase().includes(buscaNome.toLowerCase()) &&
-        item.titulo.toLowerCase().includes(buscaTitulo.toLowerCase()) &&
-        item.bairro.toLowerCase().includes(buscaApoiador.toLowerCase())
-    );
-
+    
     return (
         <Mainlayout titulo="Pedidos">
 
@@ -282,22 +266,22 @@ const Pedidos = () => {
 
                         <Col span={8}>
                             <Form.Item name="buscarporcodigo" label="Código">
-                                <Input value={buscaTitulo}
+                                <Input 
                                     onChange={(e) => setBuscaTitulo(e.target.value)} />
                             </Form.Item>
                         </Col>
 
                         <Col span={8}>
                             <Form.Item name="buscarpornome" label="Nome">
-                                <Input value={buscaNome}
+                                <Input 
                                     onChange={(e) => setBuscaNome(e.target.value)} />
                             </Form.Item>
                         </Col>
 
                         <Col span={8}>
                             <Form.Item name="buscargrupo" label="Grupo">
-                                <Input value={buscaApoiador}
-                                    onChange={(e) => setBuscaApoiador(e.target.value)} />
+                                <Input 
+                                    />
                             </Form.Item>
                         </Col>
                         <Col span={24}>

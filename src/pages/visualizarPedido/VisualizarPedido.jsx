@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, NavLink } from "react-router";
 import Mainlayout from "../../Componentes/Layout/Mainlayout";
+
 import {
     Row,
     Col,
@@ -16,37 +17,25 @@ import {
     EyeOutlined,
     ShoppingOutlined
 } from "@ant-design/icons";
+import { buscarPedidoPorId } from "../../services/FireBaseService";
 
 const { Title, Text } = Typography;
 
 const VizualizarPedido = () => {
-    const { id } = useParams();
     const [pedido, setPedido] = useState(null);
+    const { id } = useParams();
 
     useEffect(() => {
-        // Simulação de dados
-        const itens = [
-            {
-                id: '12458784',
-                nome: 'Roberta aquino',
-                variacao: 'Código P000',
-                imagem: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
-                preco: 'R$ 192,50',
-                quantidade: 1,
-            },
-            {
-                id: '89521457',
-                nome: 'Geovana fontenele',
-                variacao: 'Código P001',
-                imagem: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
-                preco: 'R$ 192,50',
-                quantidade: 1,
-            },
-        ];
+        const carregarPedido = async () => {
+            const result = await buscarPedidoPorId(id); // PASSA o id aqui
+            setPedido(result);
+            console.log(result);
+        };
 
-        const encontrado = itens.find(p => p.id === id);
-        setPedido(encontrado);
-    }, [id]);
+        if (id) {
+            carregarPedido(); // Agora não precisa passar o id aqui
+        }
+    }, [id]); // adiciona id como dependência
 
     if (!pedido) return <Mainlayout titulo="Visualizar Pedido"><p>Carregando pedido...</p></Mainlayout>;
 
@@ -71,8 +60,8 @@ const VizualizarPedido = () => {
             <Row gutter={[32, 16]} style={{ padding: "0 24px" }}>
                 <Col xs={24} md={8}>
                     <Title level={5}>👤 Cliente</Title>
-                    <Text>{pedido.nome}</Text><br />
-                    <Text type="secondary">Telefone: (85) 99999-9999</Text>
+                    <Text>{pedido.nomeCliente}</Text><br />
+                    <Text type="secondary">Telefone: {pedido.telefone}</Text>
                 </Col>
                 <Col xs={24} md={8}>
                     <Title level={5}>🏠 Endereço</Title>
@@ -93,16 +82,16 @@ const VizualizarPedido = () => {
             <Row gutter={[32, 16]} style={{ padding: "0 24px" }}>
                 <Col xs={24} md={8}>
                     <Title level={5}>💰 Valores</Title>
-                    <Text>Subtotal: <strong>{pedido.preco}</strong></Text><br />
+                    <Text>Subtotal: <strong>preço</strong></Text><br />
                     <Text>Custo: <strong>R$ 80,00</strong></Text><br />
                     <Text>Lucro: <strong>R$ 112,50</strong></Text>
                 </Col>
                 <Col xs={24} md={8}>
                     <Title level={5}>📦 Itens</Title>
                     <ul style={{ paddingLeft: 16 }}>
-                        <li>{pedido.nome} - {pedido.variacao}</li>
+                        <li>nome - variação</li>
                     </ul>
-                    <Text type="secondary">Total de Itens: {pedido.quantidade}</Text>
+                    <Text type="secondary">Total de Itens: 12</Text>
                 </Col>
             </Row>
 
@@ -125,18 +114,18 @@ const VizualizarPedido = () => {
                         background: "#fafafa",
                     }}>
                         <Image
-                            src={pedido.imagem}
-                            alt={pedido.nome}
+                            src='{pedido.imagem}'
+                            alt='{pedido.nome}'
                             width={80}
                             height={80}
                             style={{ objectFit: "cover", borderRadius: 8 }}
                             preview={false}
                         />
                         <div>
-                            <Title level={5} style={{ margin: 0 }}>{pedido.nome}</Title>
-                            <Tag color="blue">{pedido.variacao}</Tag><br />
-                            <Text>Qtd: {pedido.quantidade}</Text><br />
-                            <Text strong>{pedido.preco}</Text>
+                            <Title level={5} style={{ margin: 0 }}>{pedido.itens.nome}</Title>
+                            <Tag color="blue">variação</Tag><br />
+                            <Text>Qtd: 12</Text><br />
+                            <Text strong>12,50</Text>
                         </div>
                     </div>
                 </Col>

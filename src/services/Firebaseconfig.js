@@ -3,14 +3,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCbZgvFqBe3XGw-K5Q9miaeJkFZD1pyNcM",
-    authDomain: "meu-projeto-d2be3.firebaseapp.com",
-    databaseURL: "https://meu-projeto-d2be3-default-rtdb.firebaseio.com",
-    projectId: "meu-projeto-d2be3",
-    storageBucket: "meu-projeto-d2be3.appspot.com",
-    messagingSenderId: "500109951810",
-    appId: "1:500109951810:web:40340326d64f3c29627edb"
-  };
+  apiKey: "AIzaSyA_c_YaSzN8X4XOmopHjCw7OxUOUVCzI4s",
+  authDomain: "dona-violeta.firebaseapp.com",
+  projectId: "dona-violeta",
+  storageBucket: "dona-violeta.firebasestorage.app",
+  messagingSenderId: "918045096763",
+  appId: "1:918045096763:web:be5f6c2e2ac3cd6b07d51e"
+};
 
 // 🔹 Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
